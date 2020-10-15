@@ -15,21 +15,6 @@ flex-grow: 1;
   border: none;
 }
 
-.webcam-view {
-display: flex;
-flex-direction: column;
-align-items: center;
-}
-
-.webcams {
-display: flex;
-flex-direction: row;
-}
-
-.webcams img {
-margin: 5px;
-}
-
 .navbar-brand{
     border-radius: 20px;
     width: 170px;
@@ -100,6 +85,46 @@ margin: 5px;
     background:-webkit-linear-gradient(bottom, rgba(250,0,0,1), rgba(150,0,0,.4));
   }
 
+ #unityContainer{
+   width: 960px;
+   height: 600px;
+   margin: auto;
+ }
+
+ @media screen and (max-width: 580px) {
+   #unityContainer{
+     width: 250px;
+     height: 450px;
+     margin: auto;
+   }
+ }
+
+ /* WEBCAM CSS */
+
+ .container {
+    margin-top: 20px;
+    width: 100%;
+}
+.participant {
+    margin-bottom: 5px;
+    margin-right: 5px;
+    height:215px;
+    width:200px;
+}
+.participant div {
+    text-align: center;
+}
+.participant div:first-child {
+    width: 240px;
+    height: 180px;
+    background-color: #ccc;
+    border: 1px solid black;
+}
+.participant video {
+    height:100%;
+    width:100%;
+}
+
 /* Cams Design */
 
 .round2 {
@@ -115,16 +140,19 @@ margin: 5px;
    border: 2px solid red;
  }
 
- #unityContainer{
-   width: 960px;
-   height: 800px;
-   margin: auto;
+ .webcam-view {
+ border: 2px solid yellow;
+ border-radius: 4px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
  }
 
- @media screen and (max-width: 480px) {
-   #unityContainer{
-     width: 360px;
-     height: 650px;
-     margin: auto;
-   }
+ .webcams {
+ display: flex;
+ flex-direction: row;
+ }
+
+ .webcams img {
+ margin: 5px;
  }
