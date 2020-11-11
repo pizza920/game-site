@@ -65,7 +65,7 @@ flex-grow: 1;
     background:-webkit-linear-gradient(bottom, rgba(250,0,0,1), rgba(150,0,0,.4));
   }
 
-/* Game Are Design */
+/* Game Area Design */
 
   .sections{
     position: absolute;
@@ -73,21 +73,30 @@ flex-grow: 1;
     right: 500px;
   }
 
-/* Random Button */
-  .boxy button, .btn, .random {
+/* Buttons */
+  .boxy button {
   background: black;
   color: rgba(20,250,255,1);
-  margin:15px 200px;
+  margin: 10px;
   }
 
-  .boxy button, .btn, .random:hover {
+  .boxy button:hover {
     color: rgba(240, 255, 0, 1);
     background:-webkit-linear-gradient(bottom, rgba(250,0,0,1), rgba(150,0,0,.4));
   }
 
+  .boxy .button.randomroom{
+    background: rgba(20,250,255,10);
+    color:black;
+  }
+
+   .join-buttons{
+     display:flex;
+   }
+
  #unityContainer{
    width: 960px;
-   height: 600px;
+   height: 300px;
    margin: auto;
  }
 

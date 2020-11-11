@@ -1,6 +1,7 @@
 function addLocalVideo() {
     Twilio.Video.createLocalVideoTrack().then(track => {
-        let video = document.getElementById('local').firstChild;
+        let video = document.getElementById('webcam');
+        console.log('VIDEO: ', video);
         video.appendChild(track.attach());
     });
 };
