@@ -116,9 +116,9 @@ flex-grow: 1;
 }
 .participant {
     margin-bottom: 5px;
-    margin-right: 5px;
+    margin-right: 10px;
     height:215px;
-    width:200px;
+    /*width:200px;*/
 }
 .participant div {
     text-align: center;
