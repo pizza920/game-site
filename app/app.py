@@ -16,7 +16,7 @@ app = Flask(__name__)
 @app.before_request
 def limit_remote_addr():
     print('ADDRESS ATTEMPTING TO CONNECT: ', request.remote_addr)
-    if request.remote_addr != '73.199.77.213':
+    if request.remote_addr != '10.41.169.187':
         abort(403)  # Forbidden
 
 
