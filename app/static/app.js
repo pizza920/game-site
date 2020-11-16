@@ -1,7 +1,6 @@
 function addLocalVideo() {
     Twilio.Video.createLocalVideoTrack().then(track => {
         let video = document.getElementById('webcam');
-        console.log('VIDEO: ', video);
         video.appendChild(track.attach());
     });
 };
@@ -77,6 +76,7 @@ function participantConnected(participant) {
     participantDiv.setAttribute('id', participant.sid);
     participantDiv.setAttribute('class', 'participant');
     participantDiv.setAttribute('class', 'round2');
+    participantDiv.setAttribute('class', 'participant')
 
     let tracksDiv = document.createElement('div');
     participantDiv.appendChild(tracksDiv);
@@ -112,6 +112,7 @@ function participantDisconnected(participant) {
 };
 
 function trackSubscribed(div, track) {
+
     div.appendChild(track.attach());
 };
 

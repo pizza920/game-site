@@ -12,9 +12,18 @@ twilio_api_key_secret = os.environ.get('TWILIO_API_KEY_SECRET')
 app = Flask(__name__)
 
 
+# Restricting IP Address
+@app.before_request
+def limit_remote_addr():
+    print('ADDRESS ATTEMPTING TO CONNECT: ', request.remote_addr)
+    if request.remote_addr != '73.199.77.213':
+        abort(403)  # Forbidden
+
+
 @app.route('/')
 def index():
     return render_template('project.html', name='test')
+
 
 @app.route('/login', methods=['POST'])
 def login():
