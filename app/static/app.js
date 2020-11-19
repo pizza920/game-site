@@ -55,7 +55,6 @@ function connect(username) {
             room.on('participantConnected', participantConnected);
             room.on('participantDisconnected', participantDisconnected);
             connected = true;
-            updateParticipantCount();
             resolve();
         }).catch(() => {
             reject();
@@ -64,12 +63,12 @@ function connect(username) {
     return promise;
 };
 
-function updateParticipantCount() {
-    if (!connected)
-        count.innerHTML = 'Disconnected.';
-    else
-        count.innerHTML = (room.participants.size + 1) + ' participants online.';
-};
+// function updateParticipantCount() {
+//     if (!connected)
+//         count.innerHTML = 'Disconnected.';
+//     else
+//         count.innerHTML = (room.participants.size + 1) + ' participants online.';
+// };
 
 function participantConnected(participant) {
     let participantDiv = document.createElement('div');
@@ -94,7 +93,6 @@ function participantConnected(participant) {
     participant.on('trackSubscribed', track => trackSubscribed(tracksDiv, track));
     participant.on('trackUnsubscribed', trackUnsubscribed);
 
-    updateParticipantCount();
 };
 
 function disconnect() {
@@ -103,12 +101,10 @@ function disconnect() {
         container.removeChild(container.lastChild);
     button.innerHTML = 'Join call';
     connected = false;
-    updateParticipantCount();
 };
 
 function participantDisconnected(participant) {
     document.getElementById(participant.sid).remove();
-    updateParticipantCount();
 };
 
 function trackSubscribed(div, track) {
