@@ -27,7 +27,8 @@ function connectButtonHandler(event) {
         connect(username).then(() => {
             button.innerHTML = 'Leave call';
             button.disabled = false;
-        }).catch(() => {
+        }).catch((err) => {
+            console.error('ERROR CONNECTING USER: ', err);
             alert('Connection failed. Is the backend running?');
             button.innerHTML = 'Join call';
             button.disabled = false;
