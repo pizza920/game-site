@@ -1,0 +1,167 @@
+html {
+height: 100%;
+}
+body {
+height: 100%;
+display: flex;
+flex-direction: column;
+}
+.content {
+flex-grow: 1;
+}
+/* styling the grid */
+.content .boxy {
+  background: none;
+  border: none;
+}
+
+.navbar-brand{
+    border-radius: 20px;
+    width: 170px;
+  }
+  .navbar-brand h1{
+    margin: auto;
+  }
+  .navbar-brand h1 a {
+    text-align: center;
+    font-size: 35px;
+    color: rgba(20,250,255,1);
+    background:-webkit-linear-gradient(bottom, rgba(0,0,0,1), rgba(150,0,0,1));
+  }
+
+  .navbar-brand h1 a:hover{
+    color: rgba(240, 255, 0, 1);
+    background:-webkit-linear-gradient(bottom, rgba(250,0,0,1), rgba(150,0,0,.4));
+  }
+
+  .navbar-defualt{
+    background-color: grey;
+  }
+  nav ul li, .navbar-nav {
+  display: flex;
+  flex-direction: row !important;
+  font-weight: 600;
+  font-size: 18px;
+  }
+
+
+  ul li a {
+    color: rgba(255, 240, 0, 1);
+    padding: 20px 10px;
+  }
+  .navbar a:hover {
+    color: rgba(229, 22, 38, 1);
+  }
+
+  .navbar-brand {
+    text-align: center;
+    font-size: 30px;
+    color: rgba(20,250,255,1);
+    background:-webkit-linear-gradient(bottom, rgba(0,0,0,1), rgba(150,0,0,.4));
+  }
+
+  .navbar-brand:hover{
+    color: rgba(240, 255, 0, 1);
+    background:-webkit-linear-gradient(bottom, rgba(250,0,0,1), rgba(150,0,0,.4));
+  }
+
+/* Game Area Design */
+
+  .sections{
+    position: absolute;
+    top: -50px;
+    right: 500px;
+  }
+
+/* Buttons */
+  .boxy button {
+  background: black;
+  color: rgba(20,250,255,1);
+  margin: 10px;
+  }
+
+  .boxy button:hover {
+    color: rgba(240, 255, 0, 1);
+    background:-webkit-linear-gradient(bottom, rgba(250,0,0,1), rgba(150,0,0,.4));
+  }
+
+  .boxy .button.randomroom{
+    background: rgba(20,250,255,10);
+    color:black;
+  }
+
+   .join-buttons{
+     display:flex;
+   }
+
+ #unityContainer{
+   width: 960px;
+   height: 300px;
+   margin: auto;
+ }
+
+ @media screen and (max-width: 580px) {
+   #unityContainer{
+     width: 250px;
+     height: 450px;
+     margin: auto;
+   }
+ }
+
+ /* WEBCAM CSS */
+
+ .container {
+    margin-top: 20px;
+    width: 100%;
+}
+.participant {
+    margin-bottom: 5px;
+    margin-right: 10px;
+    height:215px;
+    /*width:200px;*/
+}
+.participant div {
+    text-align: center;
+}
+.participant div:first-child {
+    width: 240px;
+    height: 180px;
+    background-color: #ccc;
+    border: 1px solid black;
+}
+.participant video {
+    height:100%;
+    width:100%;
+}
+
+/* Cams Design */
+
+.round2 {
+   position: relative;
+   top: 50px;
+   right: 0px;
+   border: 2px solid yellow;
+   border-radius: 4px;
+   height:215px;
+   width:220px;
+ }
+ .round2:hover{
+   border: 2px solid red;
+ }
+
+ .webcam-view {
+ border: 2px solid yellow;
+ border-radius: 4px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ }
+
+ .webcams {
+ display: flex;
+ flex-direction: row;
+ }
+
+ .webcams img {
+ margin: 5px;
+ }
