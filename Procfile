@@ -1,1 +1,1 @@
-web: gunicorn gunicorn --pythonpath pizzacade pizzacade.wsgi
+web: gunicorn gunicorn --pythonpath pizzacade pizzacade pizzacade.wsgi
