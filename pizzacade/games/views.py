@@ -2,6 +2,7 @@ import os
 import json
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from twilio.jwt.access_token import AccessToken
 from twilio.jwt.access_token.grants import VideoGrant
@@ -14,6 +15,7 @@ twilio_api_key_secret = os.environ.get('TWILIO_API_KEY_SECRET')
 
 
 # Create your views here.
+@login_required
 def index(request):
     return render(request, 'games/project.html')
 
