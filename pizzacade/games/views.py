@@ -1,11 +1,12 @@
 import os
 import json
 from django.contrib.auth import login as auth_login, authenticate
-from .forms import UserCreationForm
+from .forms import UserCreationForm, ProfileForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from .models import Profile
 from twilio.jwt.access_token import AccessToken
 from twilio.jwt.access_token.grants import VideoGrant
 from dotenv import load_dotenv
@@ -45,7 +46,25 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             auth_login(request, user)
-            return redirect('index')
+            return redirect('profile_edit')
     else:
         form = UserCreationForm()
     return render(request, 'games/signup.html', {'form': form})
+
+
+@login_required
+def profile_edit(request):
+    profile = request.user.profile
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile_view')
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'games/edit_profile.html', {'form': form})
+
+
+@login_required
+def profile_view(request):
+    return render(request, 'games/view_profile.html', {'user': request.user})
