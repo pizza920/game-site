@@ -1,7 +1,7 @@
 import os
 import json
 from django.contrib.auth import login as auth_login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from .forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
