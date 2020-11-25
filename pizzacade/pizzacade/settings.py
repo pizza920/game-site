@@ -25,6 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'x_izr%c^nbqs0hjs4(rtiq!&zfit3ud$g07h8s-rxp0hul^635'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
 DEBUG = False
 
 ALLOWED_HOSTS = []
@@ -77,8 +78,15 @@ WSGI_APPLICATION = 'pizzacade.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {}
-
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 
 
 # Password validation
