@@ -1,0 +1,12 @@
+{% extends 'games/base.html' %}
+{% block content %}
+<form method="get">
+{{ user_search_form }}
+<input type="submit" value="Search">
+</form>
+<form action="{% url 'add_friends' %}" method="post">
+  {% csrf_token %}
+  {{ user_select_form }}
+  <input type="submit" value="Add Friends">
+</form>
+{% endblock %}

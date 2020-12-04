@@ -1,0 +1,25 @@
+{% load static %}
+<html>
+<body>
+<head>
+
+  <meta charset="utf-8">
+  <title> </title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'games/project.css' %}">
+  {% block head_content %}
+  {% endblock %}
+</head>
+{% include 'games/nav.html' %}
+{% if messages %}
+  <ul>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% block content %}
+{% endblock %}
+</body>
+</html>

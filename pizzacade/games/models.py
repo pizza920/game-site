@@ -17,6 +17,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     age = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(18)])
     temperament = models.CharField(null=True, blank=True, choices=TEMPERAMENT_CHOICES, max_length=24)
+    friends = models.ManyToManyField(to=User, related_name='profile_friends')
 
 
 @receiver(post_save, sender=User)

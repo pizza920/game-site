@@ -11,4 +11,6 @@ urlpatterns = [
     path('accounts/signup/', views.signup, name='signup'),
     path('accounts/profile/edit', views.profile_edit, name='profile_edit'),
     path('accounts/profile/view', views.profile_view, name='profile_view'),
+    path('people', views.people, name='people'),
+    path('add_friends', views.add_friends, name='add_friends'),
 ]
