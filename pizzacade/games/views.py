@@ -112,7 +112,6 @@ def people(request):
 def add_friends(request):
     if request.method == 'POST':
         form = UserSelectForm(request.POST)
-        print(form.errors)
         if form.is_valid():
             users = form.cleaned_data['users']
             request.user.profile.friends.set(users)
