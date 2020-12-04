@@ -1,2 +1,3 @@
-python3 pizzacade/manage.py makemigrations
-python3 pizzacade/manage.py migrate
+cd pizzacade
+python manage.py makemigrations
+python manage.py migrate
