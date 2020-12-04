@@ -1,3 +1,2 @@
-release: python3 pizzacade/manage.py makemigrations
-release: python3 pizzacade/manage.py migrate
+release: ./release-tasks.sh
 web: gunicorn --pythonpath pizzacade pizzacade.wsgi
