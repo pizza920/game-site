@@ -57,7 +57,8 @@ function connect(username) {
             room.on('participantDisconnected', participantDisconnected);
             connected = true;
             resolve();
-        }).catch(() => {
+        }).catch((e) => {
+            console.error("ERROR CONNECTING TO TWILIO", e);
             reject();
         });
     });

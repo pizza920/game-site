@@ -26,15 +26,18 @@ def index(request):
 
 @csrf_exempt
 def login(request):
-    json_body = json.loads(request.body)
-    username = json_body["username"]
-    if not username:
-        return HttpResponse('Unauthorized', status=401)
+    try:
+        json_body = json.loads(request.body)
+        username = json_body["username"]
+        if not username:
+            return HttpResponse('Unauthorized', status=401)
 
-    token = AccessToken(twilio_account_sid, twilio_api_key_sid,
-                        twilio_api_key_secret, identity=username)
-    token.add_grant(VideoGrant(room='My Room'))
-
+        token = AccessToken(twilio_account_sid, twilio_api_key_sid,
+                            twilio_api_key_secret, identity=username)
+        token.add_grant(VideoGrant(room='My Room'))
+    except Exception as e:
+        print("e: ", e)
+        raise e
     return JsonResponse({'token': token.to_jwt().decode()})
 
 
