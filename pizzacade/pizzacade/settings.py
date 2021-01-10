@@ -81,7 +81,6 @@ CHANNEL_LAYERS = {
         'CONFIG': {
             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
         },
-        "ROUTING": "pizzacade.routing.websocket_urlpatterns"
     },
 }
 
@@ -147,3 +146,5 @@ django_on_heroku.settings(locals())
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+ASGI_THREADS = 5

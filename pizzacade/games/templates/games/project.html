@@ -48,6 +48,7 @@
         </div> -->
   </div>
 </div>
+{% if user.is_authenticated %}
 <div id="online-user-box">
   <div class="online-user-header">
     <h5>Online Users</h5>
@@ -57,6 +58,7 @@
   </div>
   <div id="online-users"></div>
 </div>
+{% endif %}
 <script src="//media.twiliocdn.com/sdk/js/video/releases/2.3.0/twilio-video.min.js"></script>
 <script src="{% static 'games/app.js' %}"></script>
 <script src="{% static 'games/checkersgame/client.js' %}"></script>
