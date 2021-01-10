@@ -1,9 +1,21 @@
 {% extends 'games/base.html' %}
+
 {% block content %}
+{% if user.profile.picture %}
+<img class="profile-picture" src="{{ user.profile.picture.url }}" alt="{{ user.username }}-picture">
+{% endif %}
 <h2>{{ user.username }}</h2>
 <h4>Age {{ user.profile.age }}</h4>
 <h4>Temperament {{ user.profile.temperament }}</h4>
 <h4>Email {{ user.email }}</h4>
+<h4>Intelligence {{ user.profile.intelligence }}</h4>
+<h4>Education {{ user.profile.education }}</h4>
+<h4>Type {{ user.profile.personality_type }}</h4>
+<h2>Preferences</h2>
+<h4>Temperament {{ user.profile.temperament_preference }}</h4>
+<h4>Intelligence {{ user.profile.intelligence_preference }}</h4>
+<h4>Education {{ user.profile.education_preference }}</h4>
+<h4>Type {{ user.profile.personality_type_preference }}</h4>
 <a href="{% url 'profile_edit' %}">Edit Profile</a>
 <h4>Friends</h4>
 <ul>

@@ -4,6 +4,7 @@
     {% if user.is_authenticated %}
     <li><a href="{% url 'people' %}">People</a></li>
     <li><a href="{% url 'profile_view' %}">Profile</a></li>
+    <li>{{ user.username }}</li>
     {% endif %}
   </ul>
 

@@ -9,4 +9,11 @@
   {{ user_select_form }}
   <input type="submit" value="Add Friends">
 </form>
+
+<div>Current Friends</div>
+{% if user.profile.friends.all %}
+  {% for friend in user.profile.friends.all %}
+    <li>{{ friend.username }}</li>
+  {% endfor %}
+{% endif %}
 {% endblock %}

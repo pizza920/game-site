@@ -21,23 +21,25 @@ twilio_api_key_secret = os.environ.get('TWILIO_API_KEY_SECRET')
 
 # Create your views here.
 def index(request):
-    return render(request, 'games/project.html', {'user': request.user})
+    user = request.user
+    friends = []
+    preferences = {}
+    if request.user.is_authenticated:
+        friends = [friend.profile.as_json() for friend in user.profile.friends.all()]
+        preferences = user.profile.preferences_as_json()
+    return render(request, 'games/project.html', {'user': user, 'friends': friends, 'preferences': preferences})
 
 
 @csrf_exempt
 def login(request):
-    try:
-        json_body = json.loads(request.body)
-        username = json_body["username"]
-        if not username:
-            return HttpResponse('Unauthorized', status=401)
+    json_body = json.loads(request.body)
+    username = json_body["username"]
+    if not username:
+        return HttpResponse('Unauthorized', status=401)
 
-        token = AccessToken(twilio_account_sid, twilio_api_key_sid,
-                            twilio_api_key_secret, identity=username)
-        token.add_grant(VideoGrant(room='My Room'))
-    except Exception as e:
-        print("e: ", e)
-        raise e
+    token = AccessToken(twilio_account_sid, twilio_api_key_sid,
+                        twilio_api_key_secret, identity=username)
+    token.add_grant(VideoGrant(room='My Room'))
     return JsonResponse({'token': token.to_jwt().decode()})
 
 
@@ -60,9 +62,12 @@ def signup(request):
 def profile_edit(request):
     profile = request.user.profile
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=profile)
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
-            form.save()
+            edited_profile = form.save()
+            picture = form.cleaned_data.get("picture")
+            edited_profile.picture = picture
+            edited_profile.save()
             return redirect('profile_view')
     else:
         form = ProfileForm(instance=profile)
@@ -78,6 +83,8 @@ def profile_view(request):
 def people(request):
     user_search_form = UserSearchForm(request.GET)
     friends = request.user.profile.friends.all()
+    user_ids_to_exclude = [friend.id for friend in friends]
+    user_ids_to_exclude.append(request.user.id)
     age = request.GET.get('age', None)
     if age:
         try:
@@ -87,28 +94,31 @@ def people(request):
     temperament = request.GET.get('temperament', None)
     email = request.GET.get('email', None)
     username = request.GET.get('username', None)
-    print('AGE: ', age)
-    print('temperament: ', temperament)
-    print('email: ', email)
-    print('username: ', username)
+    intelligence = request.GET.get('intelligence', None)
+    personality_type = request.GET.get('personality_type', None)
+    education = request.GET.get('education', None)
 
-    sort_params = {
-        # 'profile__age': age,
-        # 'profile__temperament': temperament,
-        # 'email': email,
-        # 'username': username
-    }
+    filter_params = {}
+
     if age:
-        sort_params['profile__age'] = age
+        filter_params['profile__age'] = age
     if temperament:
-        sort_params['profile__temperament'] = temperament
+        filter_params['profile__temperament'] = temperament
     if email:
-        sort_params['email'] = email
+        filter_params['email'] = email
     if username:
-        sort_params['username'] = username
-    users = User.objects.filter(username=username).exclude(id__in=friends)
+        filter_params['username'] = username
+    if intelligence:
+        filter_params['profile__intelligence'] = intelligence
+    if personality_type:
+        filter_params['profile__personality_type'] = personality_type
+    if education:
+        filter_params['profile__education'] = education
+    users = User.objects.exclude(id__in=user_ids_to_exclude).filter(**filter_params)
+    if not users.exists():
+        users = User.objects.none()
     user_select_form = UserSelectForm(users=users)
-    return render(request, 'games/people.html', {'user_search_form': user_search_form, 'user_select_form': user_select_form})
+    return render(request, 'games/people.html', {'user_search_form': user_search_form, 'user_select_form': user_select_form, 'user': request.user})
 
 
 @login_required()
@@ -117,9 +127,11 @@ def add_friends(request):
         form = UserSelectForm(request.POST)
         if form.is_valid():
             users = form.cleaned_data['users']
-            request.user.profile.friends.set(users)
+            request.user.profile.friends.add(*users)
             request.user.profile.save()
             messages.add_message(request, messages.SUCCESS, 'Successfully added friends!')
+            return redirect('people')
+        else:
             return redirect('people')
 
     else:

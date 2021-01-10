@@ -47,8 +47,12 @@ flex-grow: 1;
 
   ul li a {
     color: rgba(255, 240, 0, 1);
+  }
+
+  ul li {
     padding: 20px 10px;
   }
+
   .navbar a:hover {
     color: rgba(229, 22, 38, 1);
   }
@@ -165,3 +169,51 @@ flex-grow: 1;
  .webcams img {
  margin: 5px;
  }
+
+ #online-user-box {
+   background-color: rgb(216 216 216);
+   padding: 15px;
+   z-index: 100;
+   position: fixed;
+   bottom: 0;
+   right: 0;
+   height: 175px;
+   width: 220px;
+   border-radius: 10px 0 0 10px;
+   overflow-y: scroll;
+ }
+ #online-user-box.hidden {
+    height: auto;
+ }
+
+ .online-user {
+   display: flex;
+   margin-bottom: 5px;
+ }
+
+.online-user-header {
+   display: flex;
+ }
+
+.online-user-header h5 {
+  flex-grow: 1;
+}
+
+.online-user-header i {
+  margin-left: 5px;
+}
+
+.hide {
+  display: none;
+}
+
+.profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 30%;
+  margin-right: 5px;
+}
+
+.username {
+  margin: auto 0;
+}
