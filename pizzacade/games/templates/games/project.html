@@ -66,8 +66,9 @@
 <script>
   const friends = JSON.parse(document.getElementById('friends').textContent);
   const preferences = JSON.parse(document.getElementById('preferences').textContent);
+  const wsScheme = window.location.protocol == "https:" ? "wss://" : "ws://";
   const chatSocket = new WebSocket(
-    'ws://'
+    wsScheme
     + window.location.host
     + '/ws/chat/1/'
   );
