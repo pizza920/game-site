@@ -11,7 +11,11 @@ from twilio.jwt.access_token.grants import VideoGrant
 from dotenv import load_dotenv
 from django.contrib import messages
 from .forms import UserCreationForm, ProfileForm, UserSearchForm, UserSelectForm
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.signals import user_logged_out
+from .models import Profile
 
 
 load_dotenv()
@@ -137,3 +141,19 @@ def add_friends(request):
 
     else:
         return redirect('people')
+
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    try:
+        profile = instance.profile
+    except ObjectDoesNotExist:
+        profile = Profile.objects.create(user=instance)
+        profile.save()
+
+
+@receiver(user_logged_out)
+def set_user_status(sender, request, user, **kwargs):
+    if user and user.profile and user.profile.online:
+        user.profile.online = False
+        user.profile.save()
