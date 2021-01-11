@@ -75,6 +75,7 @@ class Profile(models.Model):
 
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
+    print("POST SAVE CALLED!")
     try:
         profile = instance.profile
     except ObjectDoesNotExist:
