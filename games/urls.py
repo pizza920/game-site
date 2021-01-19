@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('checkers', views.checkers, name='checkers'),
     # This is for twilio
     path('login', views.login),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='games/login.html'), name='login'),
@@ -15,6 +16,7 @@ urlpatterns = [
     path('accounts/profile/view', views.profile_view, name='profile_view'),
     path('people', views.people, name='people'),
     path('add_friends', views.add_friends, name='add_friends'),
+    path('change_friends', views.change_friends, name='change_friends'),
 ]
 
 if settings.DEBUG:

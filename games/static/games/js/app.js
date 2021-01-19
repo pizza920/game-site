@@ -65,13 +65,6 @@ function connect(username) {
     return promise;
 };
 
-// function updateParticipantCount() {
-//     if (!connected)
-//         count.innerHTML = 'Disconnected.';
-//     else
-//         count.innerHTML = (room.participants.size + 1) + ' participants online.';
-// };
-
 function participantConnected(participant) {
     let participantDiv = document.createElement('div');
     participantDiv.setAttribute('id', participant.sid);

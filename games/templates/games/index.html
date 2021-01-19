@@ -1,0 +1,42 @@
+{% extends 'games/base.html' %}
+{% load static %}
+{% block head_content %}
+  <link rel="stylesheet" href="{% static 'games/css/index.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <h2>Games</h2>
+    <div class="row">
+      <div class="image-holder">
+        <div>
+          <a href="{% url 'checkers' %}">
+            <img
+              src='{% static 'games/images/checkers.jpg' %}'
+              alt=''
+              width='250'
+              height='120'>
+          </a>
+        </div>
+        <div>
+          <a href="">
+            <img
+              src='{% static 'games/images/poker.jpg' %}'
+              alt=''
+              width='250'
+              height='120'>
+          </a>
+        </div>
+        <div>
+          <a href="">
+            <img
+              src='{% static 'games/images/tic-tac-toe.png' %}'
+              alt=''
+              width='250'
+              height='120'>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include 'games/friend_system.html' %}
+{% endblock %}

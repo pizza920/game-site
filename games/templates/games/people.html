@@ -16,4 +16,12 @@
     <li>{{ friend.username }}</li>
   {% endfor %}
 {% endif %}
+
+<div>Change friends</div>
+<form action="{% url 'change_friends' %}" method="post">
+  {% csrf_token %}
+  {{ change_friends_form.as_table }}
+  <input type="submit" value="Change Friends">
+</form>
+
 {% endblock %}

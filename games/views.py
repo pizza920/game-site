@@ -10,7 +10,7 @@ from twilio.jwt.access_token import AccessToken
 from twilio.jwt.access_token.grants import VideoGrant
 from dotenv import load_dotenv
 from django.contrib import messages
-from .forms import UserCreationForm, ProfileForm, UserSearchForm, UserSelectForm
+from .forms import UserCreationForm, ProfileForm, UserSearchForm, UserSelectForm, ProfileFriendsForm
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
@@ -26,13 +26,13 @@ twilio_api_key_secret = os.environ.get('TWILIO_API_KEY_SECRET')
 
 # Create your views here.
 def index(request):
-    user = request.user
-    friends = []
-    preferences = {}
-    if request.user.is_authenticated:
-        friends = [friend.profile.as_json() for friend in user.profile.friends.all()]
-        preferences = user.profile.preferences_as_json()
-    return render(request, 'games/project.html', {'user': user, 'friends': friends, 'preferences': preferences, 'user_id': user.id})
+    context = get_friends_user_and_preferences_context(request.user)
+    return render(request, 'games/index.html', context)
+
+
+def checkers(request):
+    context = get_friends_user_and_preferences_context(request.user)
+    return render(request, 'games/checkers.html', context)
 
 
 @csrf_exempt
@@ -87,6 +87,7 @@ def profile_view(request):
 @login_required
 def people(request):
     user_search_form = UserSearchForm(request.GET)
+    change_friends_form = ProfileFriendsForm(instance=request.user.profile)
     friends = request.user.profile.friends.all()
     user_ids_to_exclude = [friend.id for friend in friends]
     user_ids_to_exclude.append(request.user.id)
@@ -123,7 +124,7 @@ def people(request):
     if not users.exists():
         users = User.objects.none()
     user_select_form = UserSelectForm(users=users)
-    return render(request, 'games/people.html', {'user_search_form': user_search_form, 'user_select_form': user_select_form, 'user': request.user})
+    return render(request, 'games/people.html', {'user_search_form': user_search_form, 'user_select_form': user_select_form, 'change_friends_form': change_friends_form, 'user': request.user})
 
 
 @login_required()
@@ -135,6 +136,21 @@ def add_friends(request):
             request.user.profile.friends.add(*users)
             request.user.profile.save()
             messages.add_message(request, messages.SUCCESS, 'Successfully added friends!')
+            return redirect('people')
+        else:
+            return redirect('people')
+
+    else:
+        return redirect('people')
+
+
+@login_required()
+def change_friends(request):
+    if request.method == 'POST':
+        form = ProfileFriendsForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Successfully saved friends!')
             return redirect('people')
         else:
             return redirect('people')
@@ -158,3 +174,12 @@ def set_user_status(sender, request, user, **kwargs):
     if user and user.profile:
         user.profile.online_count = 0
         user.profile.save()
+
+
+def get_friends_user_and_preferences_context(user):
+    friends = []
+    preferences = {}
+    if user.is_authenticated:
+        friends = [friend.profile.as_json() for friend in user.profile.friends.all()]
+        preferences = user.profile.preferences_as_json()
+    return {'user': user, 'friends': friends, 'preferences': preferences, 'user_id': user.id}

@@ -1,0 +1,55 @@
+{% extends 'games/base.html' %}
+{% load static %}
+{% block head_content %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+          integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+          crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+        integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
+        crossorigin="anonymous"/>
+  <script src="{% static 'games/checkersgame/Build/UnityLoader.js' %}"></script>
+  <link rel="stylesheet" src="{% static 'games/css/checkers.css' %}">
+  <script>
+    var unityInstance = UnityLoader.instantiate("unityContainer", "{% static 'games/checkersgame/Build/webgl.json' %}");
+  </script>
+{% endblock head_content %}
+{% block content %}
+
+  <style>
+
+  </style>
+
+  <div class="row content">
+    <div class="col-md-8 col-sm-12 boxy">
+      <div id="unityContainer" style="width: 960px; height: 600px"></div>
+
+    </div>
+
+
+    <div class="col-md-4 col-sm-12 boxy webcam-view">
+      <div class="join-buttons">
+
+        <button class="button createfriendroom" onclick="createFriendRoom()">Create Room</button>
+        <button class="button joinfriendroom" onclick="joinFriendRoom()">Join Room</button>
+        <button class="button randomroom" onclick="RandomMatching()">Random Match</button>
+        <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+      </div>
+      <form>
+        <label for="username">Name: </label>
+        <input type="text" name="username" id="username">
+        <button id="join_leave">Join call</button>
+      </form>
+      <div id="container" class="container webcams">
+        <div id="local" class="participant">
+          <div id="webcam"></div>
+          <div>Me</div>
+        </div>
+        <!-- more participants will be added dynamically here -->
+      </div>
+    </div>
+  </div>
+  <script src="//media.twiliocdn.com/sdk/js/video/releases/2.3.0/twilio-video.min.js"></script>
+  <script src="{% static 'games/js/app.js' %}"></script>
+  <script src="{% static 'games/checkersgame/client.js' %}"></script>
+  {% include 'games/friend_system.html' %}
+{% endblock %}

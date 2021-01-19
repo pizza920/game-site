@@ -217,3 +217,8 @@ flex-grow: 1;
 .username {
   margin: auto 0;
 }
+
+#filter-type {
+  margin-bottom: 5px;
+  font-size: 12px;
+}

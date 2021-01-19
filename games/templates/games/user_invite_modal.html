@@ -1,0 +1,26 @@
+{% if user.is_authenticated %}
+  <div id="online-user-box">
+    <div class="online-user-header">
+      <h5>Online Users</h5>
+      <i class="fas fa-user" id="online-users-toggle" onclick="toggleOnlineUsers()"></i>
+      <i id="hideShowButton" class="fas fa-minus" onclick="hideShow()"></i>
+    </div>
+    <div id="filter-type">Users by Preference</div>
+    <div id="online-users"></div>
+  </div>
+  <div class="modal" tabindex="-1" role="dialog" id="send-invite-modal" aria-labelledby="send-invite-modal"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>Send Game Invite to</p>
+          <p id="invite-username"></p>
+        </div>
+        <div class="modal-footer">
+          <button onclick="sendUserInvite()" type="button" class="btn btn-primary" data-dismiss="modal">Send</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

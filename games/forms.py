@@ -30,6 +30,12 @@ class ProfileForm(forms.ModelForm):
         ]
 
 
+class ProfileFriendsForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['friends']
+
+
 TEMPERAMENT_FORM_CHOICES = ((None, '----'),) + TEMPERAMENT_CHOICES
 INTELLIGENCE_FORM_CHOICES = ((None, '----'),) + INTELLIGENCE_CHOICES
 EDUCATION_FORM_CHOICES = ((None, '----'),) + EDUCATION_CHOICES
