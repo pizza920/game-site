@@ -4,5 +4,5 @@ from . import consumers
 
 websocket_urlpatterns = [
     re_path(r'ws/chat/(?P<room_name>\w+)/$', consumers.ChatConsumer.as_asgi()),
-    re_path(r'ws/send-game-invite/<int:user_id>/$', consumers.GameInviteConsumer.as_asgi()),
+    re_path(r'ws/send-game-invite/(?P<user_id>[0-9]+)/$', consumers.GameInviteConsumer.as_asgi()),
 ]

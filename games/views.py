@@ -32,7 +32,7 @@ def index(request):
     if request.user.is_authenticated:
         friends = [friend.profile.as_json() for friend in user.profile.friends.all()]
         preferences = user.profile.preferences_as_json()
-    return render(request, 'games/project.html', {'user': user, 'friends': friends, 'preferences': preferences})
+    return render(request, 'games/project.html', {'user': user, 'friends': friends, 'preferences': preferences, 'user_id': user.id})
 
 
 @csrf_exempt
@@ -143,6 +143,7 @@ def add_friends(request):
         return redirect('people')
 
 
+
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     try:
@@ -154,6 +155,6 @@ def create_profile(sender, instance, created, **kwargs):
 
 @receiver(user_logged_out)
 def set_user_status(sender, request, user, **kwargs):
-    if user and user.profile and user.profile.online:
-        user.profile.online = False
+    if user and user.profile:
+        user.profile.online_count = 0
         user.profile.save()

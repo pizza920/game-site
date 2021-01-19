@@ -1,6 +1,8 @@
 {% extends 'games/base.html' %}
 {% load static %}
 {% block head_content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" />
 <script src="{% static 'games/checkersgame/Build/UnityLoader.js' %}"></script>
 <script>
   var unityInstance = UnityLoader.instantiate("unityContainer", "{% static 'games/checkersgame/Build/webgl.json' %}");
@@ -52,12 +54,27 @@
 <div id="online-user-box">
   <div class="online-user-header">
     <h5>Online Users</h5>
-{#    <i class="fas fa-user-friends"></i>#}
+    <i class="fas fa-user-friends"></i>
     <i class="fas fa-user" id="online-users-toggle" onclick="toggleOnlineUsers()"></i>
     <i id="hideShowButton" class="fas fa-minus" onclick="hideShow()"></i>
   </div>
   <div id="online-users"></div>
 </div>
+<div class="modal" tabindex="-1" role="dialog" id="send-invite-modal" aria-labelledby="send-invite-modal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>Send Game Invite to</p>
+        <p id="invite-username"></p>
+      </div>
+      <div class="modal-footer">
+        <button onclick="sendUserInvite()" type="button" class="btn btn-primary" data-dismiss="modal">Send</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endif %}
 <script src="//media.twiliocdn.com/sdk/js/video/releases/2.3.0/twilio-video.min.js"></script>
 <script src="{% static 'games/app.js' %}"></script>
@@ -65,14 +82,21 @@
 {% if user.is_authenticated %}
 {{ friends|json_script:"friends" }}
 {{ preferences|json_script:"preferences" }}
+{{ user_id|json_script:"user_id" }}
 <script>
   const friends = JSON.parse(document.getElementById('friends').textContent);
   const preferences = JSON.parse(document.getElementById('preferences').textContent);
+  const userId = JSON.parse(document.getElementById('user_id').textContent);
   const wsScheme = window.location.protocol == "https:" ? "wss://" : "ws://";
-  const chatSocket = new WebSocket(
+  const allUsersSocket = new WebSocket(
     wsScheme
     + window.location.host
     + '/ws/chat/1/'
+  );
+  const inviteSocket = new WebSocket(
+    wsScheme
+    + window.location.host
+    + '/ws/send-game-invite/' + userId + '/'
   );
   const PREFERENCES = 'PREFERENCES';
   const FRIENDS = 'FRIENDS';
@@ -98,14 +122,22 @@
   }
 
   const onlineUsersDiv = document.getElementById("online-users");
+  const inviteUsernameElement = document.getElementById("invite-username");
 
   let friendsOnline = [];
   let preferencedUsers = [];
   let currentUsers = [];
+  let userSelected = null;
 
   function createUserDiv(onlineUser) {
     const userDiv = document.createElement("div");
     userDiv.classList.add("online-user");
+    userDiv.setAttribute("data-toggle", "modal");
+    userDiv.setAttribute("data-target", "#send-invite-modal");
+    userDiv.onclick = function() {
+      userSelected = onlineUser;
+      inviteUsernameElement.textContent = onlineUser.username;
+    };
     userDiv.id = onlineUser.id;
     const userDivText = document.createElement("div");
     userDivText.classList.add("username");
@@ -138,19 +170,30 @@
     });
   }
 
-  chatSocket.onmessage = function(e) {
+  function sendUserInvite() {
+    inviteSocket.send(JSON.stringify({ user: userSelected, type: "send_invite" }));
+  }
+
+  allUsersSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
-    const usersFilteredByPreferences = filterByPreferences(data.message);
-    friendsOnline = filterOutFriends(data.message, friends);
+    const usersFilteredByPreferences = filterByPreferences(data.online_users);
+    friendsOnline = filterOutFriends(data.online_users, friends);
     preferencedUsers = usersFilteredByPreferences;
     setUsersBasedOnFilter(filter);
   };
 
-  chatSocket.onclose = function(e) {
+  allUsersSocket.onclose = function(e) {
     console.error('Chat socket closed unexpectedly');
   };
 
-  chatSocket.onopen = function(e) {};
+  allUsersSocket.onopen = function(e) {};
+
+
+  inviteSocket.onmessage = function(e) {
+    toastr.options.positionClass = 'toast-bottom-left';
+    const data = JSON.parse(e.data);
+    toastr.info(data.message);
+  }
 
 
 </script>
