@@ -227,6 +227,7 @@ flex-grow: 1;
   margin: auto;
   color: rgba(255, 240, 0, 1);
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .image-holder {
