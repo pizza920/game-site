@@ -1,13 +1,13 @@
 {% if user.is_authenticated %}
   <div id="online-user-box">
     <div class="online-user-header">
-      <h5>Online Users</h5>
+      <h5 id="filter-type">Invite People Like You</h5>
       <i class="fas fa-user" id="online-users-toggle" onclick="toggleOnlineUsers()"></i>
       <i id="hideShowButton" class="fas fa-minus" onclick="hideShow()"></i>
     </div>
-    <div id="filter-type">Users by Preference</div>
     <div id="online-users"></div>
   </div>
+
   <div class="modal" tabindex="-1" role="dialog" id="send-invite-modal" aria-labelledby="send-invite-modal"
        aria-hidden="true">
     <div class="modal-dialog" role="document">

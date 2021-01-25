@@ -15,8 +15,8 @@ const inviteSocket = new WebSocket(
 const PREFERENCES = 'PREFERENCES';
 const FRIENDS = 'FRIENDS';
 let filter = PREFERENCES;
-const PREFERENCES_TITLE = "Users by Preference";
-const FRIENDS_TITLE = "Friends";
+const PREFERENCES_TITLE = "Invite People Like You";
+const FRIENDS_TITLE = "Invite Friends";
 
 function filterByPreferences(onlineUsers) {
   const usersToShow = onlineUsers.filter(user => {
@@ -46,15 +46,12 @@ let preferencedUsers = [];
 let currentUsers = [];
 let userSelected = null;
 
+
 function createUserDiv(onlineUser) {
   const userDiv = document.createElement("div");
   userDiv.classList.add("online-user");
   userDiv.setAttribute("data-toggle", "modal");
   userDiv.setAttribute("data-target", "#send-invite-modal");
-  userDiv.onclick = function () {
-    userSelected = onlineUser;
-    inviteUsernameElement.textContent = onlineUser.username;
-  };
   userDiv.id = onlineUser.id;
   const userDivText = document.createElement("div");
   userDivText.classList.add("username");
@@ -68,8 +65,16 @@ function createUserDiv(onlineUser) {
   if (typeof (onlineUser.picture) === "string" && onlineUser.picture.length > 0) {
     userImage.src = onlineUser.picture;
   }
+  const inviteButton = document.createElement("div");
+  inviteButton.classList.add("invite-user-button");
+  inviteButton.innerHTML = "Invite";
+  inviteButton.onclick = function () {
+    userSelected = onlineUser;
+    inviteUsernameElement.textContent = onlineUser.username;
+  };
   userDiv.appendChild(userImage);
   userDiv.appendChild(userDivText);
+  userDiv.appendChild(inviteButton);
   return userDiv;
 }
 
@@ -108,11 +113,21 @@ allUsersSocket.onclose = function (e) {
 allUsersSocket.onopen = function (e) {
 };
 
+const generateToastMessage = function (message) {
+  const acceptHtml = '<div><a href="#">Accept</a></div>';
+  const declineHtml = '<div><a href="#">Decline</a></div>';
+  return (
+    message + '\n' +
+    acceptHtml + '\n' +
+    declineHtml
+  )
+}
+
 
 inviteSocket.onmessage = function (e) {
   toastr.options.positionClass = 'toast-bottom-left';
   const data = JSON.parse(e.data);
-  toastr.info(data.message);
+  toastr.info(generateToastMessage(data.message));
 }
 
 

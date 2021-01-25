@@ -8,7 +8,7 @@
     <h2>Games</h2>
     <div class="row">
       <div class="image-holder">
-        <div>
+        <div class="game">
           <a href="{% url 'checkers' %}">
             <img
               src='{% static 'games/images/checkers.jpg' %}'
@@ -16,8 +16,9 @@
               width='250'
               height='120'>
           </a>
+          <h5 class="game-title">Checkers</h5>
         </div>
-        <div>
+        <div class="game">
           <a href="">
             <img
               src='{% static 'games/images/poker.jpg' %}'
@@ -25,8 +26,9 @@
               width='250'
               height='120'>
           </a>
+          <h5 class="game-title">Poker</h5>
         </div>
-        <div>
+        <div class="game">
           <a href="">
             <img
               src='{% static 'games/images/tic-tac-toe.png' %}'
@@ -34,6 +36,7 @@
               width='250'
               height='120'>
           </a>
+          <h5 class="game-title">Tic Tac Toe</h5>
         </div>
       </div>
     </div>

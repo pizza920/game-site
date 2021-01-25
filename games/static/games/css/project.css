@@ -193,11 +193,8 @@ flex-grow: 1;
 
 .online-user-header {
    display: flex;
+  margin-bottom: 15px;
  }
-
-.online-user-header h5 {
-  flex-grow: 1;
-}
 
 .online-user-header i {
   margin-left: 5px;
@@ -219,6 +216,30 @@ flex-grow: 1;
 }
 
 #filter-type {
-  margin-bottom: 5px;
+  margin: auto;
   font-size: 12px;
+  flex-grow: 1;
+  font-weight: bold;
+  color: rgba(255, 240, 0, 1);
+}
+
+.invite-user-button {
+  margin: auto;
+  color: rgba(255, 240, 0, 1);
+  text-decoration: underline;
+}
+
+.image-holder {
+  padding: 10px;
+}
+
+.game {
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.game-title {
+  margin: auto;
 }
