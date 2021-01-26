@@ -15,18 +15,14 @@
 {% endblock head_content %}
 {% block content %}
 
-  <style>
-
-  </style>
-
   <div class="row content">
-    <div class="col-md-8 col-sm-12 boxy">
-      <div id="unityContainer" style="width: 960px; height: 600px"></div>
 
+    <div class="col-md-9 col-sm-12 boxy">
+      <div id="unityContainer"></div>
     </div>
 
 
-    <div class="col-md-4 col-sm-12 boxy webcam-view">
+    <div class="col-md-3 col-sm-12 boxy webcam-view">
       <div class="join-buttons">
 
         <button class="button createfriendroom" onclick="createFriendRoom()">Create Room</button>
@@ -47,6 +43,8 @@
         <!-- more participants will be added dynamically here -->
       </div>
     </div>
+
+    {% include 'games/games.html' %}
   </div>
   <script src="//media.twiliocdn.com/sdk/js/video/releases/2.3.0/twilio-video.min.js"></script>
   <script src="{% static 'games/js/app.js' %}"></script>

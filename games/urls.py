@@ -5,8 +5,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('checkers', views.checkers, name='checkers'),
+    path('checkers', views.checkers, name='index'),
+    path('', views.checkers, name='checkers'),
     # This is for twilio
     path('login', views.login),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='games/login.html'), name='login'),

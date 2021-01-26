@@ -8,9 +8,10 @@ from channels.layers import get_channel_layer
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
+        print("CONNECTED")
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
-        self.set_online_status_for_user(True)
+        self.increment_online_count()
 
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
@@ -27,7 +28,7 @@ class ChatConsumer(WebsocketConsumer):
         )
 
     def disconnect(self, close_code):
-        self.set_online_status_for_user(False)
+        self.decrement_online_count()
         # Leave room group
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
@@ -47,15 +48,24 @@ class ChatConsumer(WebsocketConsumer):
             'online_users': self.get_all_online_users_except_self()
         }))
 
-    def set_online_status_for_user(self, online):
+    def increment_online_count(self):
         user = self.scope['user']
-        user.profile.online = online
+        user.profile.online_count = user.profile.online_count + 1
         user.profile.save()
 
-    def get_all_online_users_except_self(self):
+    def decrement_online_count(self):
         user = self.scope['user']
-        online_users = User.objects.filter(profile__online=True).exclude(id=user.id)
-        serialized_online_users = [online_user.profile.as_json() for online_user in online_users]
+        if user.profile.online_count > 0:
+            user.profile.online_count = user.profile.online_count - 1
+            user.profile.save()
+
+    def get_all_online_users_except_self(self):
+        print("HERE")
+        user = self.scope['user']
+        online_users = User.objects.filter(profile__online_count__gt=0).exclude(id=user.id)
+        for user in online_users:
+            print(str(user))
+        serialized_online_users = [online_user.profile.as_dict() for online_user in online_users]
         return serialized_online_users
 
 

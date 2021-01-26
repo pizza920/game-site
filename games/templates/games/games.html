@@ -1,12 +1,8 @@
-{% extends 'games/base.html' %}
 {% load static %}
-{% block head_content %}
-  <link rel="stylesheet" href="{% static 'games/css/index.css' %}">
-{% endblock %}
-{% block content %}
-  <div class="container">
-    <h2>Games</h2>
+<div class="container">
+  <div class="games col-md-12 col-sm-12">
     <div class="row">
+      <h2>Games</h2>
       <div class="image-holder">
         <div class="game">
           <a href="{% url 'checkers' %}">
@@ -41,5 +37,4 @@
       </div>
     </div>
   </div>
-  {% include 'games/friend_system.html' %}
-{% endblock %}
+</div>

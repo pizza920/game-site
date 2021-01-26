@@ -1,6 +1,8 @@
 const friends = JSON.parse(document.getElementById('friends').textContent);
 const preferences = JSON.parse(document.getElementById('preferences').textContent);
 const userId = JSON.parse(document.getElementById('user_id').textContent);
+
+console.log("FRIENDS: ", friends);
 const wsScheme = window.location.protocol == "https:" ? "wss://" : "ws://";
 const allUsersSocket = new WebSocket(
   wsScheme
@@ -31,9 +33,15 @@ function filterByPreferences(onlineUsers) {
   return usersToShow;
 }
 
-function filterOutFriends(onlineUsers, friends) {
-  return onlineUsers.filter(user => {
-    return friends.some(friend => friend.id === user.id);
+function getFriendsWithStatus(onlineUsers, friends) {
+  return friends.map(friend => {
+    const friendCopy = Object.assign({}, friend);
+    if (onlineUsers.some(onlineUser => onlineUser.id === friend.id)) {
+      friendCopy.onlineStatus = true;
+    } else {
+      friendCopy.onlineStatus = false;
+    }
+    return friendCopy;
   });
 }
 
@@ -46,6 +54,16 @@ let preferencedUsers = [];
 let currentUsers = [];
 let userSelected = null;
 
+function createStatusDiv(onlineStatus) {
+  const statusDiv = document.createElement("div");
+  statusDiv.classList.add("dot");
+  if (onlineStatus === true) {
+    statusDiv.classList.add("online");
+  } else {
+    statusDiv.classList.add("offline");
+  }
+  return statusDiv;
+}
 
 function createUserDiv(onlineUser) {
   const userDiv = document.createElement("div");
@@ -72,9 +90,18 @@ function createUserDiv(onlineUser) {
     userSelected = onlineUser;
     inviteUsernameElement.textContent = onlineUser.username;
   };
-  userDiv.appendChild(userImage);
-  userDiv.appendChild(userDivText);
-  userDiv.appendChild(inviteButton);
+  // If it has this property it is filtered by friends and needs to have extra element to display status
+  if (typeof(onlineUser.onlineStatus) === "boolean") {
+    userDiv.appendChild(userImage);
+    userDiv.appendChild(createStatusDiv(onlineUser.onlineStatus));
+    userDiv.appendChild(userDivText);
+    if (onlineUser.onlineStatus === true) userDiv.appendChild(inviteButton);
+  //  On preferenced users
+  } else {
+    userDiv.appendChild(userImage);
+    userDiv.appendChild(userDivText);
+    userDiv.appendChild(inviteButton);
+  }
   return userDiv;
 }
 
@@ -100,9 +127,8 @@ function sendUserInvite() {
 
 allUsersSocket.onmessage = function (e) {
   const data = JSON.parse(e.data);
-  const usersFilteredByPreferences = filterByPreferences(data.online_users);
-  friendsOnline = filterOutFriends(data.online_users, friends);
-  preferencedUsers = usersFilteredByPreferences;
+  friendsOnline = getFriendsWithStatus(data.online_users, friends);
+  preferencedUsers = filterByPreferences(data.online_users);
   setUsersBasedOnFilter(filter);
 };
 

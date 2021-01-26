@@ -40,10 +40,10 @@ class Profile(models.Model):
     personality_type_preference = models.CharField(null=True, blank=True, choices=PERSONALITY_TYPE_CHOICES, max_length=24)
     education_preference = models.CharField(null=True, blank=True, choices=EDUCATION_CHOICES, max_length=24)
     friends = models.ManyToManyField(to=User, related_name='profile_friends', blank=True)
-    online = models.BooleanField(default=False)
+    online_count = models.IntegerField(default=0)
     picture = models.ImageField(upload_to='images/', null=True, blank=True)
 
-    def as_json(self):
+    def as_dict(self):
         picture = None
         if self.picture:
             picture = self.picture.url
@@ -57,7 +57,7 @@ class Profile(models.Model):
             "picture": picture
         }
 
-    def preferences_as_json(self):
+    def preferences_as_dict(self):
         return {
             "temperament": self.temperament_preference,
             "intelligence": self.intelligence_preference,

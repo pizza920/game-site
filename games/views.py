@@ -16,18 +16,14 @@ from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.signals import user_logged_out
 from .models import Profile
+from django.http import HttpResponseForbidden
+from whitenoise.middleware import WhiteNoiseMiddleware
 
 
 load_dotenv()
 twilio_account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
 twilio_api_key_sid = os.environ.get('TWILIO_API_KEY_SID')
 twilio_api_key_secret = os.environ.get('TWILIO_API_KEY_SECRET')
-
-
-# Create your views here.
-def index(request):
-    context = get_friends_user_and_preferences_context(request.user)
-    return render(request, 'games/index.html', context)
 
 
 def checkers(request):
@@ -124,7 +120,16 @@ def people(request):
     if not users.exists():
         users = User.objects.none()
     user_select_form = UserSelectForm(users=users)
-    return render(request, 'games/people.html', {'user_search_form': user_search_form, 'user_select_form': user_select_form, 'change_friends_form': change_friends_form, 'user': request.user})
+    return render(
+        request,
+        'games/people.html',
+        {
+            'user_search_form': user_search_form,
+            'user_select_form': user_select_form,
+            'change_friends_form': change_friends_form,
+            'user': request.user,
+        }
+    )
 
 
 @login_required()
@@ -159,7 +164,6 @@ def change_friends(request):
         return redirect('people')
 
 
-
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     try:
@@ -180,6 +184,17 @@ def get_friends_user_and_preferences_context(user):
     friends = []
     preferences = {}
     if user.is_authenticated:
-        friends = [friend.profile.as_json() for friend in user.profile.friends.all()]
-        preferences = user.profile.preferences_as_json()
+        friends = [friend.profile.as_dict() for friend in user.profile.friends.all()]
+        preferences = user.profile.preferences_as_dict()
     return {'user': user, 'friends': friends, 'preferences': preferences, 'user_id': user.id}
+
+
+# Restricting auth for static files
+class ProtectedStaticFileMiddleware(WhiteNoiseMiddleware):
+    def process_request(self, request):
+        # check user authentication
+        print("GOING THROUGH MIDDLE WARE")
+        if request.user.is_authenticated:
+            return super(WhiteNoiseMiddleware, self).process_request(request)
+        # condition false
+        return HttpResponseForbidden("you are not authorized")
