@@ -26,6 +26,11 @@ twilio_api_key_sid = os.environ.get('TWILIO_API_KEY_SID')
 twilio_api_key_secret = os.environ.get('TWILIO_API_KEY_SECRET')
 
 
+def index(request):
+    context = get_friends_user_and_preferences_context(request.user)
+    return render(request, 'games/index.html', context)
+
+
 def checkers(request):
     context = get_friends_user_and_preferences_context(request.user)
     return render(request, 'games/checkers.html', context)

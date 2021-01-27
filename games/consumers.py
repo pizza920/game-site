@@ -60,7 +60,6 @@ class ChatConsumer(WebsocketConsumer):
             user.profile.save()
 
     def get_all_online_users_except_self(self):
-        print("HERE")
         user = self.scope['user']
         online_users = User.objects.filter(profile__online_count__gt=0).exclude(id=user.id)
         for user in online_users:
