@@ -289,3 +289,8 @@ ul li {
 .offline {
   background-color: red;
 }
+
+.people-link {
+  font-size: 8px;
+  text-decoration: underline;
+}
