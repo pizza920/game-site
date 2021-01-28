@@ -5,10 +5,9 @@
 {% endblock %}
 {% block content %}
   <div class="container">
-    <h2>Games</h2>
     <div class="row">
       <div class="image-holder col-md-9">
-        <div>
+        <div class="game">
           <a href="{% url 'checkers' %}">
             <img
               src='{% static 'games/images/checkers.jpg' %}'
@@ -16,8 +15,9 @@
               width='250'
               height='120'>
           </a>
+          <h5>Checkers</h5>
         </div>
-        <div>
+        <div class="game">
           <a href="">
             <img
               src='{% static 'games/images/poker.jpg' %}'
@@ -25,8 +25,9 @@
               width='250'
               height='120'>
           </a>
+          <h5>Pokers</h5>
         </div>
-        <div>
+        <div class="game">
           <a href="">
             <img
               src='{% static 'games/images/tic-tac-toe.png' %}'
@@ -34,6 +35,27 @@
               width='250'
               height='120'>
           </a>
+          <h5>Tic Tac Toe</h5>
+        </div>
+        <div class="game">
+          <a href="">
+            <img
+              src='{% static 'games/images/connect-four.png' %}'
+              alt=''
+              width='250'
+              height='120'>
+          </a>
+          <h5>Connect Four</h5>
+        </div>
+        <div class="game">
+          <a href="">
+            <img
+              src='{% static 'games/images/codenames.jpg' %}'
+              alt=''
+              width='250'
+              height='120'>
+          </a>
+          <h5>Codenames</h5>
         </div>
       </div>
       <div class="col-md-3">

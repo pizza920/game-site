@@ -17,3 +17,7 @@
 .image-holder * {
     margin: 5px;
 }
+
+.game h5 {
+  text-align: center;
+}
