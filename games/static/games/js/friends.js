@@ -1,3 +1,7 @@
+$(document).ready(function() {
+  $('body').tooltip({ selector: '[data-toggle="tooltip"]' });
+});
+
 const friends = JSON.parse(document.getElementById('friends').textContent);
 const preferences = JSON.parse(document.getElementById('preferences').textContent);
 const userId = JSON.parse(document.getElementById('user_id').textContent);
@@ -17,8 +21,8 @@ const inviteSocket = new WebSocket(
 const PREFERENCES = 'PREFERENCES';
 const FRIENDS = 'FRIENDS';
 let filter = PREFERENCES;
-const PREFERENCES_TITLE = "Invite People Like You";
-const FRIENDS_TITLE = "Invite Friends";
+const PREFERENCES_TITLE = "People Like You";
+const FRIENDS_TITLE = "Friends";
 
 function filterByPreferences(onlineUsers) {
   const usersToShow = onlineUsers.filter(user => {
@@ -48,6 +52,7 @@ function getFriendsWithStatus(onlineUsers, friends) {
 const onlineUsersDiv = document.getElementById("online-users");
 const inviteUsernameElement = document.getElementById("invite-username");
 const filterTypeElement = document.getElementById("filter-type");
+const peopleLinkElement = document.getElementById("people-link");
 
 let friendsOnline = [];
 let preferencedUsers = [];
@@ -71,22 +76,15 @@ function createUserDiv(onlineUser) {
   userDiv.setAttribute("data-toggle", "modal");
   userDiv.setAttribute("data-target", "#send-invite-modal");
   userDiv.id = onlineUser.id;
-  const userDivText = document.createElement("div");
-  userDivText.classList.add("username");
-  let usernameString = onlineUser.username;
-  if (onlineUser.username.length > 12) {
-    usernameString = onlineUser.username.substring(0, 12) + "...";
-  }
-  userDivText.innerHTML = usernameString;
   const userImage = document.createElement("img");
   userImage.classList.add("profile-picture");
+  userImage.setAttribute("data-toggle", "tooltip");
+  const tooltipText = "Click to call " + onlineUser.username;
+  userImage.setAttribute("title", tooltipText);
   if (typeof (onlineUser.picture) === "string" && onlineUser.picture.length > 0) {
     userImage.src = onlineUser.picture;
   }
-  const inviteButton = document.createElement("div");
-  inviteButton.classList.add("invite-user-button");
-  inviteButton.innerHTML = "Invite";
-  inviteButton.onclick = function () {
+  userImage.onclick = function () {
     userSelected = onlineUser;
     inviteUsernameElement.textContent = onlineUser.username;
   };
@@ -94,13 +92,10 @@ function createUserDiv(onlineUser) {
   if (typeof(onlineUser.onlineStatus) === "boolean") {
     userDiv.appendChild(userImage);
     userDiv.appendChild(createStatusDiv(onlineUser.onlineStatus));
-    userDiv.appendChild(userDivText);
     if (onlineUser.onlineStatus === true) userDiv.appendChild(inviteButton);
   //  On preferenced users
   } else {
     userDiv.appendChild(userImage);
-    userDiv.appendChild(userDivText);
-    userDiv.appendChild(inviteButton);
   }
   return userDiv;
 }
@@ -109,9 +104,11 @@ function setUsersBasedOnFilter(filter) {
   if (filter === PREFERENCES) {
     currentUsers = preferencedUsers;
     filterTypeElement.textContent = PREFERENCES_TITLE;
+    peopleLinkElement.classList.remove("hide");
   } else {
     currentUsers = friendsOnline;
     filterTypeElement.textContent = FRIENDS_TITLE;
+    peopleLinkElement.classList.add("hide");
   }
   console.log("CURRENT USERS: ", currentUsers);
   onlineUsersDiv.textContent = '';

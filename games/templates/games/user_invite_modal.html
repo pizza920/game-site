@@ -1,8 +1,8 @@
 {% if user.is_authenticated %}
   <div id="online-user-box">
     <div class="online-user-header">
-      <h5 id="filter-type">Invite People Like You</h5>
-      <a class="people-link" href="{% url 'people' %}">Filters</a>
+      <h5 id="filter-type">People Like You</h5>
+      <a id="people-link" href="{% url 'people' %}">Filters</a>
       <i class="fas fa-user" id="online-users-toggle" onclick="toggleOnlineUsers()"></i>
       <i id="hideShowButton" class="fas fa-minus" onclick="hideShow()"></i>
     </div>

@@ -177,10 +177,6 @@ ul li {
   flex-direction: row;
 }
 
-.webcams img {
-  margin: 5px;
-}
-
 #online-user-box {
   background-color: rgb(216 216 216);
   padding: 15px;
@@ -200,7 +196,12 @@ ul li {
 
 .online-user {
   display: flex;
-  margin-bottom: 5px;
+  margin: 5px;
+  color: transparent;
+}
+
+.online-user:hover {
+  border: 1px solid rgb(20, 250, 255, 1);
 }
 
 .online-user-header {
@@ -220,11 +221,6 @@ ul li {
   width: 40px;
   height: 40px;
   border-radius: 30%;
-  margin-right: 5px;
-}
-
-.username {
-  margin: auto 0;
 }
 
 #filter-type {
@@ -232,18 +228,7 @@ ul li {
   font-size: 12px;
   flex-grow: 1;
   font-weight: bold;
-  color: rgba(255, 240, 0, 1);
-}
-
-.invite-user-button {
-  margin: auto;
-  color: rgba(255, 240, 0, 1);
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.image-holder {
-  padding: 10px;
+  color: rgba(20, 250, 255, 1)
 }
 
 .game {
@@ -275,7 +260,16 @@ ul li {
   background-color: red;
 }
 
-.people-link {
+#people-link {
   font-size: 8px;
   text-decoration: underline;
+}
+
+.hide {
+  display: none;
+}
+
+#online-users {
+  flex-wrap: wrap;
+  display: flex;
 }
