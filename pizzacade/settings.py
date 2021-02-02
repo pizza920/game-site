@@ -4,6 +4,8 @@ from .settings_common import *
 import dj_database_url
 
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -34,3 +36,16 @@ INSTALLED_APPS = [
 #     'API_SECRET': 'YOUR_API_SECRET',
 # }
 # DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+django_on_heroku.settings(locals())
