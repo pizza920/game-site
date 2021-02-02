@@ -1,0 +1,1 @@
+# This is a file so this directory is saved for heroku use with static files.
