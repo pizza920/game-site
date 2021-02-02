@@ -16,9 +16,6 @@ from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.signals import user_logged_out
 from .models import Profile
-from django.http import HttpResponseForbidden
-from whitenoise.middleware import WhiteNoiseMiddleware
-
 
 load_dotenv()
 twilio_account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
@@ -192,14 +189,3 @@ def get_friends_user_and_preferences_context(user):
         friends = [friend.profile.as_dict() for friend in user.profile.friends.all()]
         preferences = user.profile.preferences_as_dict()
     return {'user': user, 'friends': friends, 'preferences': preferences, 'user_id': user.id}
-
-
-# Restricting auth for static files
-class ProtectedStaticFileMiddleware(WhiteNoiseMiddleware):
-    def process_request(self, request):
-        # check user authentication
-        print("GOING THROUGH MIDDLE WARE")
-        if request.user.is_authenticated:
-            return super(WhiteNoiseMiddleware, self).process_request(request)
-        # condition false
-        return HttpResponseForbidden("you are not authorized")

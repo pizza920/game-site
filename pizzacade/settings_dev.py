@@ -2,8 +2,6 @@ print("DEV SETTINGS ENABLED")
 
 from .settings_common import *
 
-INSTALLED_APPS_DEV = ['whitenoise.runserver_nostatic']
-INSTALLED_APPS = INSTALLED_APPS_DEV + INSTALLED_APPS
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
