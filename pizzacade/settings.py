@@ -66,6 +66,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #     os.path.join(BASE_DIR, 'games/static'),
 # )
 
+print("HERE")
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
