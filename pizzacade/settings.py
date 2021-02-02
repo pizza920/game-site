@@ -30,6 +30,12 @@ INSTALLED_APPS = [
     # 'cloudinary',
 ]
 
+MIDDLEWARE_CLASSES = (
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+)
+
 # CLOUDINARY_STORAGE = {
 #     'CLOUD_NAME': 'YOUR_CLOUD_NAME',
 #     'API_KEY': 'YOUR_API_KEY',
@@ -38,6 +44,11 @@ INSTALLED_APPS = [
 # DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
