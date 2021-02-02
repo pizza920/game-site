@@ -41,7 +41,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-django_on_heroku.settings(locals())
+# django_on_heroku.settings(locals())
 
 # CLOUDINARY_STORAGE = {
 #     'CLOUD_NAME': 'YOUR_CLOUD_NAME',
