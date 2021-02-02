@@ -1,7 +1,6 @@
 print("PROD SETTINGS ENABLED")
 
 from .settings_common import *
-from whitenoise import Whitenoise
 import dj_database_url
 
 
