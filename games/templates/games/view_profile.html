@@ -2,7 +2,7 @@
 
 {% block content %}
 {% if user.profile.picture %}
-<img class="profile-picture" src="{{ user.profile.picture.url }}" alt="{{ user.username }}-picture">
+<img height="75" width="75" class="profile-picture" src="{{ user.profile.picture.url }}" alt="{{ user.username }}-picture">
 {% endif %}
 <h2>{{ user.username }}</h2>
 <h4>Age {{ user.profile.age }}</h4>
