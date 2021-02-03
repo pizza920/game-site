@@ -64,3 +64,6 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'Y3N5HLgMod99iBz64J9RkU2LRzQ',
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Django Compressor doesn't work with heroku
+COMPRESS_ENABLED = False
