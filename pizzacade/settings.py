@@ -23,11 +23,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # 'cloudinary_storage',
+    'cloudinary_storage',
     'django.contrib.staticfiles',
     'channels',
     'games',
-    # 'cloudinary',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -42,14 +42,6 @@ MIDDLEWARE = [
 ]
 
 # django_on_heroku.settings(locals())
-
-# CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME': 'YOUR_CLOUD_NAME',
-#     'API_KEY': 'YOUR_API_KEY',
-#     'API_SECRET': 'YOUR_API_SECRET',
-# }
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -66,18 +58,9 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'games/static'),
 )
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-        },
-    },
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'hxuie33uy',
+    'API_KEY': '839277731853354',
+    'API_SECRET': 'Y3N5HLgMod99iBz64J9RkU2LRzQ',
 }
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
