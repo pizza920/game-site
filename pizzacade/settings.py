@@ -3,6 +3,7 @@ print("PROD SETTINGS ENABLED")
 from .settings_common import *
 import dj_database_url
 import os
+from django.utils.log import DEFAULT_LOGGING
 
 # AWS S3 SETTINGS
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
@@ -62,3 +63,5 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = AWS_URL + '/media/'
 DEFAULT_FILE_STORAGE = 'pizzacade.storage_backends.MediaStorage'
 
+# This is to allow logging in heroku
+DEFAULT_LOGGING['handlers']['console']['filters'] = []
