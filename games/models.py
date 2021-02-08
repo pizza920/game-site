@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
-from cloudinary.models import CloudinaryField
 
 
 TEMPERAMENT_CHOICES = (
@@ -42,7 +41,7 @@ class Profile(models.Model):
     education_preference = models.CharField(null=True, blank=True, choices=EDUCATION_CHOICES, max_length=24)
     friends = models.ManyToManyField(to=User, related_name='profile_friends', blank=True)
     online_count = models.IntegerField(default=0)
-    picture = CloudinaryField('avatar')
+    picture = models.ImageField(upload_to='images/', null=True, blank=True)
 
     def as_dict(self):
         picture = None
