@@ -41,7 +41,7 @@ class Profile(models.Model):
     education_preference = models.CharField(null=True, blank=True, choices=EDUCATION_CHOICES, max_length=24)
     friends = models.ManyToManyField(to=User, related_name='profile_friends', blank=True)
     online_count = models.IntegerField(default=0)
-    picture = models.ImageField(null=True, blank=True)
+    picture = models.FileField(null=True, blank=True)
 
     def as_dict(self):
         picture = None
