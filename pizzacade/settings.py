@@ -22,7 +22,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '.herokuapp.com',
     'pizzacade.com',
-    # '0.0.0.0'
+    # '127.0.0.1'
 ]
 
 # Database
@@ -59,7 +59,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Simplified static file serving.
 STATIC_URL = AWS_URL + '/static/'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'pizzacade.storage_backends.StaticStorage'
 MEDIA_URL = AWS_URL + '/media/'
 DEFAULT_FILE_STORAGE = 'pizzacade.storage_backends.MediaStorage'
 
